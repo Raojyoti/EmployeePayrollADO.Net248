@@ -37,7 +37,6 @@ namespace EmployeePayrollAdo.NetProblem
                         model.Name = reader["Name"] == DBNull.Value ? default : reader["Name"].ToString();
                         model.Basic_Pay = Convert.ToInt64(reader["Basic_Pay"] == DBNull.Value ? default : reader["Basic_Pay"]);
                         model.StartDate = (DateTime)(reader["StartDate"] == DBNull.Value ? default(DateTime) : reader["StartDate"]);
-
                         model.Gender = reader["Gender"] == DBNull.Value ? default : reader["Gender"].ToString();
                         model.Phone_Number = Convert.ToInt64(reader["Phone_Number"] == DBNull.Value ? default : reader["Phone_Number"]);
                         model.Address = reader["Address"] == DBNull.Value ? default : reader["Address"].ToString();
@@ -49,7 +48,6 @@ namespace EmployeePayrollAdo.NetProblem
                         Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", model.Id, model.Name, model.Basic_Pay, model.StartDate, model.Gender, model.Phone_Number, model.Address, model.Department, model.Deductions, model.Taxable_Pay, model.Income_Tax, model.Net_Pay);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -80,6 +78,39 @@ namespace EmployeePayrollAdo.NetProblem
                 if (num != 0)
 
                     Console.WriteLine("Employee Updated Successfully");
+                else
+                    Console.WriteLine("Something went Wrong");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        /// <summary>
+        /// UC4- Add new employees data
+        /// </summary>
+        /// <param name="model"></param>
+        public static void AddEmployee(EmployeePayroll model)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand("dbo.spAddNewEmployee", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                sqlConnection.Open();
+                command.Parameters.AddWithValue("@Name", model.Name);
+                command.Parameters.AddWithValue("@Basic_Pay", model.Basic_Pay);
+                command.Parameters.AddWithValue("@Phone_Number", model.Phone_Number);
+                command.Parameters.AddWithValue("@Address", model.Address);
+                command.Parameters.AddWithValue("@Department", model.Department);
+                int num = command.ExecuteNonQuery();
+                if (num != 0)
+                    Console.WriteLine("Employee Added Successfully");
                 else
                     Console.WriteLine("Something went Wrong");
             }
