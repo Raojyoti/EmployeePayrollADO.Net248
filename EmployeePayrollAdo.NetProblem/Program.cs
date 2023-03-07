@@ -14,13 +14,14 @@ namespace EmployeePayrollAdo.NetProblem
             {
                 Console.Clear();
                 Console.WriteLine("Please select given options");
-                Console.WriteLine("1.CreateConnectionsWithDatabase\n" +
+                Console.WriteLine("1.Get all employees\n" +
                     "8.Exit\n");
                 int option = Convert.ToInt32(Console.ReadLine());
                 switch (option)
                 {
                     case 1:
                         Console.Clear();
+                        Console.WriteLine("Details of Employees are\n----------------------------");
                         EmployeeRepository.GetAllEmployees();
                         Console.Write("\nPress any key to continue...... ");
                         break;
